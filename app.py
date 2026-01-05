@@ -4,21 +4,17 @@ import sqlite3
 import spacy
 import re
 
+# --- CARGA PROFESIONAL DEL CEREBRO (NLU) ---
 @st.cache_resource
 def load_nlu():
     try:
-        # Al estar en requirements.txt, se puede importar como cualquier librería
-        import es_core_news_sm
-        return es_core_news_sm.load()
-    except ImportError:
-        # Intento secundario por nombre de string
+        # Streamlit Cloud vincula automáticamente el modelo del requirements
         return spacy.load("es_core_news_sm")
+    except Exception as e:
+        st.error(f"⚠️ Error de NLU: {e}")
+        return None
 
-# Inicializar el cerebro del bot
 nlp = load_nlu()
-
-if nlp is None:
-    st.error("⚠️ Error crítico: No se pudo cargar el procesador de lenguaje.")
 
 # Configuración de la página (Profesionalismo)
 st.set_page_config(page_title="Bot de analisis NFL", page_icon="🏈", layout="wide")
