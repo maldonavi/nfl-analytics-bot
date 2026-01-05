@@ -1,18 +1,10 @@
-# --- NÚCLEO DEL SISTEMA ---
 streamlit
-pandas==2.3.2
-numpy==2.3.2
-sqlite3-api
+pandas
+numpy
 nfl_data_py
-
-# --- PROCESAMIENTO DE LENGUAJE (NLP) ---
 spacy
 https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.7.0/es_core_news_sm-3.7.0-py3-none-any.whl
-
-# --- DEPENDENCIAS DE SOPORTE ---
-requests==2.32.5
 openpyxl
-jinja2==3.1.6
-python-dateutil==2.9.0.post0
-pytz==2025.2
-attrs==25.3.0
+requests
+jinja2
+python-dateutil
