@@ -6,16 +6,18 @@ import subprocess
 import sys
 import re
 
-def load_nlu_model():
-    model_name = "es_core_news_sm"
+@st.cache_resource
+def load_nlu():
     try:
-        # Intenta cargar el modelo si ya está instalado
-        return spacy.load(model_name)
+        # Intenta cargar el modelo por su nombre estándar
+        return spacy.load("es_core_news_sm")
     except OSError:
-        # Si falla, fuerza la descarga directa usando el ejecutable de Python del servidor
-        subprocess.check_call([sys.executable, "-m", "spacy", "download", model_name])
-        return spacy.load(model_name)
-nlp = load_nlu_model()
+        # Si no está (a veces el nombre cambia en la instalación por URL), 
+        # intentamos descargarlo forzadamente
+        subprocess.run([sys.executable, "-m", "spacy", "download", "es_core_news_sm"])
+        return spacy.load("es_core_news_sm")
+
+nlp = load_nlu()
 
 # Configuración de la página (Profesionalismo)
 st.set_page_config(page_title="Bot de analisis NFL", page_icon="🏈", layout="wide")
