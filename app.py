@@ -4,11 +4,10 @@ import sqlite3
 import spacy
 import re
 
-# --- CARGA PROFESIONAL DEL CEREBRO (NLU) ---
+
 @st.cache_resource
 def load_nlu():
     try:
-        # Streamlit Cloud vincula automáticamente el modelo del requirements
         return spacy.load("es_core_news_sm")
     except Exception as e:
         st.error(f"⚠️ Error de NLU: {e}")
