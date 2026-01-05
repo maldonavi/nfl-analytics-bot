@@ -2,10 +2,20 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 import spacy
-import es_core_news_sm
+import subprocess
+import sys
 import re
 
-nlp = es_core_news_sm.load()
+def load_nlu_model():
+    model_name = "es_core_news_sm"
+    try:
+        # Intenta cargar el modelo si ya está instalado
+        return spacy.load(model_name)
+    except OSError:
+        # Si falla, fuerza la descarga directa usando el ejecutable de Python del servidor
+        subprocess.check_call([sys.executable, "-m", "spacy", "download", model_name])
+        return spacy.load(model_name)
+nlp = load_nlu_model()
 
 # Configuración de la página (Profesionalismo)
 st.set_page_config(page_title="Bot de analisis NFL", page_icon="🏈", layout="wide")
