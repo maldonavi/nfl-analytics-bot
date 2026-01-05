@@ -2,22 +2,23 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 import spacy
-import subprocess
-import sys
 import re
 
 @st.cache_resource
 def load_nlu():
     try:
-        # Intenta cargar el modelo por su nombre estándar
-        return spacy.load("es_core_news_sm")
-    except OSError:
-        # Si no está (a veces el nombre cambia en la instalación por URL), 
-        # intentamos descargarlo forzadamente
-        subprocess.run([sys.executable, "-m", "spacy", "download", "es_core_news_sm"])
+        # Al estar en requirements.txt, se puede importar como cualquier librería
+        import es_core_news_sm
+        return es_core_news_sm.load()
+    except ImportError:
+        # Intento secundario por nombre de string
         return spacy.load("es_core_news_sm")
 
+# Inicializar el cerebro del bot
 nlp = load_nlu()
+
+if nlp is None:
+    st.error("⚠️ Error crítico: No se pudo cargar el procesador de lenguaje.")
 
 # Configuración de la página (Profesionalismo)
 st.set_page_config(page_title="Bot de analisis NFL", page_icon="🏈", layout="wide")
